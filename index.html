@@ -1,10 +1,19 @@
 <!doctype html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>简时记 隐私政策 · Privacy Policy</title>
-<meta name="description" content="简时记（Chronolog）隐私政策，包含中文与英文版本。">
+<title>Chronolog Privacy Policy</title>
+<meta name="description" content="Privacy Policy for Chronolog (简时记).">
+<script>
+  (function () {
+    var root = document.documentElement;
+    root.classList.add('js');
+    if (new URLSearchParams(window.location.search).get('lang') === 'zh') {
+      root.classList.add('lang-zh');
+    }
+  })();
+</script>
 <style>
   *, *::before, *::after { box-sizing: border-box; }
 
@@ -65,8 +74,15 @@
     box-shadow: 0 1px 2px rgba(0, 0, 0, .03), 0 12px 40px -24px rgba(0, 0, 0, .18);
   }
 
+  .head-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
   .kicker {
-    margin: 0 0 10px;
+    margin: 0;
     font-size: 12.5px;
     font-weight: 600;
     letter-spacing: .14em;
@@ -75,7 +91,7 @@
   }
 
   h1 {
-    margin: 0 0 10px;
+    margin: 14px 0 10px;
     font-size: 34px;
     line-height: 1.25;
     letter-spacing: -.02em;
@@ -89,34 +105,47 @@
     letter-spacing: .01em;
   }
 
-  .lang {
-    display: flex;
+  .lang-toggle {
+    display: inline-flex;
+    align-items: center;
     gap: 6px;
-    margin-top: 24px;
-  }
-
-  .lang a {
-    display: inline-block;
-    padding: 5px 14px;
+    flex: none;
+    padding: 6px 13px;
+    font: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.5;
+    color: var(--accent-ink);
+    background: var(--paper);
     border: 1px solid var(--rule);
     border-radius: 999px;
-    color: var(--muted);
-    text-decoration: none;
-    font-size: 13.5px;
-    line-height: 1.6;
-    transition: border-color .15s ease, color .15s ease;
+    cursor: pointer;
+    transition: border-color .15s ease, background-color .15s ease, color .15s ease;
   }
 
-  .lang a:hover {
+  .lang-toggle:hover {
     border-color: var(--accent);
-    color: var(--accent-ink);
+    background: var(--soft);
   }
 
-  .lang a[aria-current] {
-    background: var(--accent);
-    border-color: var(--accent);
-    color: var(--on-accent);
+  .lang-toggle:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
   }
+
+  .lang-toggle svg { flex: none; }
+
+  html:not(.js) .lang-toggle { display: none; }
+
+  /* Language-specific header text. */
+  .lang-zh-ui { display: none; }
+  html.lang-zh .lang-en-ui { display: none; }
+  html.lang-zh .lang-zh-ui { display: inline; }
+
+  /* Only one language is ever rendered: English by default, Chinese on toggle. */
+  #zh { display: none; }
+  html.lang-zh #en { display: none; }
+  html.lang-zh #zh { display: block; }
 
   .lede {
     font-size: 16.5px;
@@ -169,28 +198,6 @@
 
   .callout p:last-child { margin-bottom: 0; }
 
-  #en {
-    margin-top: 56px;
-    padding-top: 48px;
-    border-top: 1px solid var(--rule);
-  }
-
-  .article-title {
-    margin: 0 0 6px;
-    padding: 0;
-    border: 0;
-    font-size: 26px;
-    letter-spacing: -.02em;
-    font-weight: 700;
-  }
-
-  .version {
-    color: var(--muted);
-    font-weight: 500;
-    font-size: 16px;
-    letter-spacing: 0;
-  }
-
   .doc-foot {
     display: flex;
     flex-wrap: wrap;
@@ -209,10 +216,10 @@
     body { font-size: 15.5px; line-height: 1.78; }
     .page { padding: 20px 12px 48px; }
     .sheet { padding: 30px 22px 34px; border-radius: 16px; }
-    h1 { font-size: 27px; }
+    h1 { margin-top: 12px; font-size: 27px; }
     article > h2 { margin-top: 32px; padding-top: 24px; font-size: 17.5px; }
-    #en { margin-top: 44px; padding-top: 36px; }
-    .article-title { font-size: 22px; }
+    .head-top { gap: 10px; }
+    .lang-toggle { padding: 5px 11px; font-size: 12.5px; }
     .doc-foot { flex-direction: column; }
   }
 
@@ -220,13 +227,7 @@
     body { background: #fff; color: #000; font-size: 11.5pt; }
     .page { padding: 0; max-width: none; }
     .sheet { border: 0; box-shadow: none; padding: 0; }
-    .lang { display: none; }
-    #en {
-      page-break-before: always;
-      border-top: 0;
-      margin-top: 0;
-      padding-top: 0;
-    }
+    .lang-toggle { display: none !important; }
     a { color: #000; }
   }
 </style>
@@ -236,14 +237,71 @@
   <div class="sheet">
 
     <header class="doc-head">
-      <p class="kicker">简时记 · Chronolog</p>
-      <h1>隐私政策</h1>
-      <p class="meta">生效日期：2026 年 10 月 21 日</p>
-      <nav class="lang" aria-label="语言 / Language">
-        <a href="#zh" aria-current="page">中文</a>
-        <a href="#en" lang="en">English</a>
-      </nav>
+      <div class="head-top">
+        <p class="kicker">简时记 · Chronolog</p>
+        <button id="lang-toggle" class="lang-toggle" type="button" lang="zh-CN" aria-label="Switch to Chinese">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="9"></circle>
+            <path d="M3 12h18"></path>
+            <path d="M12 3c2.6 2.8 2.6 15.2 0 18"></path>
+            <path d="M12 3c-2.6 2.8-2.6 15.2 0 18"></path>
+          </svg>
+          <span class="lang-en-ui">中文</span>
+          <span class="lang-zh-ui" lang="en">English</span>
+        </button>
+      </div>
+      <h1>
+        <span class="lang-en-ui">Privacy Policy</span>
+        <span class="lang-zh-ui">隐私政策</span>
+      </h1>
+      <p class="meta">
+        <span class="lang-en-ui">Effective Date: October 21, 2026</span>
+        <span class="lang-zh-ui">生效日期：2026 年 10 月 21 日</span>
+      </p>
     </header>
+
+    <article id="en" lang="en">
+      <p class="lede">Welcome to use Chronolog (the “App”), a calendar habit tracker &amp; note-taking tool. We respect and protect your privacy. This Privacy Policy describes how we handle information when you use our App.</p>
+
+      <h2>Information We Access and How We Use It</h2>
+
+      <h3>Photo Library Permission</h3>
+      <p>We request photo library access only when you actively select photos to attach to your check-in records. We only read the photos you manually choose. Selected photos are saved locally inside the App sandbox on your device. We will not scan your whole album, read other photos without your selection, or upload your images to any remote server.</p>
+      <p>You may revoke photo access permission anytime in iOS System Settings. After permission is revoked, you cannot add new photos, but your existing records remain intact.</p>
+
+      <h3>User-generated Content (Local Storage)</h3>
+      <p>All check-in entries, custom tags, text notes and preference settings you create are stored locally on your iPhone and will not be automatically uploaded to our servers. This data is only used for in-app display, calendar view and weekly/monthly statistics. Only you can view these data on this device.</p>
+      <p>You may delete single records or all data inside the App. Once deleted, records and attached images will be removed locally and cannot be recovered.</p>
+
+      <p><strong>Permissions we do not request:</strong> location, microphone, contacts, health, or any other sensitive permission.</p>
+
+      <h2>Data We DO NOT Collect</h2>
+      <div class="callout">
+        <p>We do NOT collect your name, phone number, email, ID, location, contact list, device identifiers or any personal identifiable information. We do not integrate third-party analytics, tracking or advertising SDKs. We will never share, sell or transfer your data to any third parties.</p>
+      </div>
+
+      <h2>Data Storage &amp; Security</h2>
+      <p>All your data stays locally on your device, protected by iOS sandbox isolation. We have no remote access to your App data.</p>
+      <p>If you enable iCloud Backup on your iPhone, iOS may include App data in your iCloud backup. This backup is controlled by Apple and governed by Apple’s privacy terms, outside of our control.</p>
+
+      <h2>Children’s Privacy</h2>
+      <p>This App is rated 4+. We do not knowingly collect information from children.</p>
+
+      <h2>Your Rights</h2>
+      <p>You can at any time:</p>
+      <ul>
+        <li>Revoke photo library permission in iOS Settings;</li>
+        <li>Delete check-in records and attached images within the App;</li>
+        <li>Uninstall the App, which will erase all local App data;</li>
+        <li>Contact us via the email below for privacy inquiries.</li>
+      </ul>
+
+      <h2>Changes to This Policy</h2>
+      <p>If we add new features in later versions, we will update this Privacy Policy and notify you inside the App.</p>
+
+      <h2>Contact</h2>
+      <p>If you have questions about this Privacy Policy, please email us at <a href="mailto:1252964419@qq.com">1252964419@qq.com</a>.</p>
+    </article>
 
     <article id="zh" lang="zh-CN">
       <p class="lede">欢迎使用「简时记」App（以下简称“本应用”）。本应用是一款日历打卡、图文记录工具，我们高度重视您的隐私安全。本隐私政策将向您说明，我们如何处理您在使用本应用过程中的信息。</p>
@@ -288,52 +346,6 @@
       <p>如您对本隐私政策有疑问，请发送邮件至 <a href="mailto:1252964419@qq.com">1252964419@qq.com</a>。</p>
     </article>
 
-    <article id="en" lang="en">
-      <h2 class="article-title">Privacy Policy <span class="version">(English Version)</span></h2>
-      <p class="meta">Effective Date: October 21, 2026</p>
-
-      <p class="lede">Welcome to use Chronolog (the “App”), a calendar habit tracker &amp; note-taking tool. We respect and protect your privacy. This Privacy Policy describes how we handle information when you use our App.</p>
-
-      <h2>Information We Access and How We Use It</h2>
-
-      <h3>Photo Library Permission</h3>
-      <p>We request photo library access only when you actively select photos to attach to your check-in records. We only read the photos you manually choose. Selected photos are saved locally inside the App sandbox on your device. We will not scan your whole album, read other photos without your selection, or upload your images to any remote server.</p>
-      <p>You may revoke photo access permission anytime in iOS System Settings. After permission is revoked, you cannot add new photos, but your existing records remain intact.</p>
-
-      <h3>User-generated Content (Local Storage)</h3>
-      <p>All check-in entries, custom tags, text notes and preference settings you create are stored locally on your iPhone and will not be automatically uploaded to our servers. This data is only used for in-app display, calendar view and weekly/monthly statistics. Only you can view these data on this device.</p>
-      <p>You may delete single records or all data inside the App. Once deleted, records and attached images will be removed locally and cannot be recovered.</p>
-
-      <p><strong>Permissions we do not request:</strong> location, microphone, contacts, health, or any other sensitive permission.</p>
-
-      <h2>Data We DO NOT Collect</h2>
-      <div class="callout">
-        <p>We do NOT collect your name, phone number, email, ID, location, contact list, device identifiers or any personal identifiable information. We do not integrate third-party analytics, tracking or advertising SDKs. We will never share, sell or transfer your data to any third parties.</p>
-      </div>
-
-      <h2>Data Storage &amp; Security</h2>
-      <p>All your data stays locally on your device, protected by iOS sandbox isolation. We have no remote access to your App data.</p>
-      <p>If you enable iCloud Backup on your iPhone, iOS may include App data in your iCloud backup. This backup is controlled by Apple and governed by Apple’s privacy terms, outside of our control.</p>
-
-      <h2>Children’s Privacy</h2>
-      <p>This App is rated 4+. We do not knowingly collect information from children.</p>
-
-      <h2>Your Rights</h2>
-      <p>You can at any time:</p>
-      <ul>
-        <li>Revoke photo library permission in iOS Settings;</li>
-        <li>Delete check-in records and attached images within the App;</li>
-        <li>Uninstall the App, which will erase all local App data;</li>
-        <li>Contact us via the email below for privacy inquiries.</li>
-      </ul>
-
-      <h2>Changes to This Policy</h2>
-      <p>If we add new features in later versions, we will update this Privacy Policy and notify you inside the App.</p>
-
-      <h2>Contact</h2>
-      <p>If you have questions about this Privacy Policy, please email us at <a href="mailto:1252964419@qq.com">1252964419@qq.com</a>.</p>
-    </article>
-
     <footer class="doc-foot">
       <p>简时记 · Chronolog</p>
       <p>最后更新 / Last updated: 2026-10-21</p>
@@ -341,5 +353,37 @@
 
   </div>
 </main>
+<script>
+  (function () {
+    var root = document.documentElement;
+    var btn = document.getElementById('lang-toggle');
+    var desc = document.querySelector('meta[name="description"]');
+    var isZh = root.classList.contains('lang-zh');
+
+    function render(zh, updateUrl) {
+      isZh = zh;
+      root.classList.toggle('lang-zh', zh);
+      root.lang = zh ? 'zh-CN' : 'en';
+      document.title = zh ? '简时记 隐私政策' : 'Chronolog Privacy Policy';
+      btn.lang = zh ? 'en' : 'zh-CN';
+      btn.setAttribute('aria-label', zh ? 'Switch to English' : 'Switch to Chinese');
+      if (desc) {
+        desc.setAttribute('content', zh
+          ? '简时记（Chronolog）隐私政策'
+          : 'Privacy Policy for Chronolog (简时记).');
+      }
+      if (updateUrl) {
+        var url = window.location.pathname + (zh ? '?lang=zh' : '');
+        window.history.replaceState(null, '', url);
+      }
+    }
+
+    btn.addEventListener('click', function () {
+      render(!isZh, true);
+    });
+
+    render(isZh, false);
+  })();
+</script>
 </body>
 </html>
